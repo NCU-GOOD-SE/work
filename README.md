@@ -12,6 +12,6 @@
 
 | Name | Scrum Role      |
 |----------|------------|
-| 周子祺   | Scrum Master |
-| 陈以凡   | Product Owner |
-| 左芷菁   | Dev Team|
+| Ziqi Zhou   | Scrum Master |
+| Yifan Chen   | Product Owner |
+| Jingzhi Zuo   | Dev Team|
