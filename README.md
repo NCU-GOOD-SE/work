@@ -1,10 +1,10 @@
 # work
 
-** Team Name: AI4Dev **
+**Team Name: AI4Dev**
 
 </br>
 
-**Team Slogan: We are the future **
+**Team Slogan: We are the future**
 
 </br>
 
