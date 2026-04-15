@@ -1,6 +1,6 @@
 # 表现层 - 仅负责输入输出与命令路由，无业务逻辑
 from repository import GameStateRepository
-from services import CharacterService, MovementService, SceneService
+from services import CharacterService, MovementService, SceneService, InventoryService
 
 def parse_input(user_input):
     """
@@ -18,13 +18,14 @@ def parse_input(user_input):
 
 def main():
     print("=== 文字冒险游戏 ===")
-    print("命令：create [名字] | move [场景] | status | list | add [场景] | quit\n")
+    print("命令：create [名字] | move [场景] | status | list | add [场景] | inventory | pickup [物品] | drop [物品] | quit\n")
 
     # 初始化依赖
     repo = GameStateRepository()
     char_service = CharacterService(repo)
     move_service = MovementService(repo)
     scene_service = SceneService(repo)
+    inv_service = InventoryService(repo)  # 新增背包服务
 
     # 主循环
     while True:
@@ -50,6 +51,17 @@ def main():
 
             elif cmd == "add":
                 success, msg = scene_service.add_scene(arg)
+
+            # ===== 新增背包系统命令 =====
+            elif cmd == "inventory":
+                success, msg = inv_service.show_inventory()
+
+            elif cmd == "pickup":
+                success, msg = inv_service.pick_up(arg)
+
+            elif cmd == "drop":
+                success, msg = inv_service.drop_item(arg)
+            # ===== 背包系统命令结束 =====
 
             else:
                 msg = "未知命令，请重试"
