@@ -1,0 +1,167 @@
+openapi: 3.0.0
+info:
+  title: MUD Game API
+  description: API contract for the MUD game system
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+paths:
+  /players:
+    post:
+      summary: Create a new player
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayerCreateRequest'
+      responses:
+        '201':
+          description: Player created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerResponse'
+        '400':
+          description: Invalid request data
+    get:
+      summary: Get player status
+      responses:
+        '200':
+          description: Current player status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerResponse'
+        '404':
+          description: Player does not exist
+  /scenes:
+    get:
+      summary: List all available scenes
+      responses:
+        '200':
+          description: List of available scenes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScenesListResponse'
+    post:
+      summary: Add a new scene
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SceneAddRequest'
+      responses:
+        '201':
+          description: Scene added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SceneAddResponse'
+        '400':
+          description: Invalid request data
+  /players/move:
+    put:
+      summary: Move player to a different scene
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayerMoveRequest'
+      responses:
+        '200':
+          description: Player moved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerMoveResponse'
+        '400':
+          description: Invalid scene or other error
+        '404':
+          description: Player does not exist
+components:
+  schemas:
+    PlayerCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the player
+          example: "Alice"
+      required:
+        - name
+    PlayerMoveRequest:
+      type: object
+      properties:
+        destination:
+          type: string
+          description: Destination scene name
+          example: "Forest"
+      required:
+        - destination
+    PlayerResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the player
+          example: "Alice"
+        location:
+          type: string
+          description: Current location of the player
+          example: "Village"
+      required:
+        - name
+        - location
+    ScenesListResponse:
+      type: object
+      properties:
+        scenes:
+          type: array
+          items:
+            type: string
+          description: List of available scenes
+          example: ["Forest", "Village", "Cave"]
+      required:
+        - scenes
+    SceneAddRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the scene to add
+          example: "Cave"
+      required:
+        - name
+    SceneAddResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the scene was added successfully
+          example: true
+        message:
+          type: string
+          description: Result message
+          example: "Scene added successfully"
+      required:
+        - success
+        - message
+    PlayerMoveResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the move was successful
+          example: true
+        message:
+          type: string
+          description: Result message
+          example: "Moved to Forest successfully"
+      required:
+        - success
+        - message
