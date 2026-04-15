@@ -1,10 +1,11 @@
 # 数据层 - 唯一访问全局状态的地方，封装所有数据操作
-from domain_models import World
+from domain_models import World, Inventory
 
 class GameStateRepository:
     def __init__(self):
         self._player = None  # 私有变量，外部禁止直接访问
         self._world = World(["Forest", "Village"])  # 初始化世界
+        self._inventory = Inventory()  # 初始化背包
 
     # 获取角色
     def get_player(self):
@@ -28,3 +29,15 @@ class GameStateRepository:
     # 获取所有可用场景
     def get_all_scenes(self):
         return self._world.scenes
+
+    # 获取背包
+    def get_inventory(self):
+        return self._inventory
+
+    # 添加物品到背包
+    def add_item_to_inventory(self, item):
+        self._inventory.add_item(item)
+
+    # 从背包移除物品
+    def remove_item_from_inventory(self, item_name):
+        return self._inventory.remove_item(item_name)

@@ -1,5 +1,5 @@
 # 业务逻辑层 - 纯逻辑处理，不处理输入输出
-from domain_models import Player
+from domain_models import Player, Item
 
 class CharacterService:
     def __init__(self, repo):
@@ -53,3 +53,27 @@ class SceneService:
     # 添加场景
     def add_scene(self, scene):
         return self.repo.add_scene(scene)
+
+
+class InventoryService:
+    def __init__(self, repo):
+        self.repo = repo
+
+    def pick_up(self, item_name, description=""):
+        if not item_name:
+            return False, "物品名称不能为空"
+        new_item = Item(item_name, description or "一件普通物品")
+        self.repo.add_item_to_inventory(new_item)
+        return True, f"获得了：{item_name}"
+
+    def drop_item(self, item_name):
+        item = self.repo.remove_item_from_inventory(item_name)
+        if item:
+            return True, f"丢弃了：{item_name}"
+        return False, f"背包里没有：{item_name}"
+
+    def show_inventory(self):
+        items = self.repo.get_inventory().list_items()
+        if not items:
+            return True, "背包是空的"
+        return True, "背包物品：\n" + "\n".join(items)
