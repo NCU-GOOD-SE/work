@@ -1,0 +1,41 @@
+openapi: 3.0.0
+info:
+  title: 游戏背包系统API
+  version: 1.0.0
+  description: 物品背包系统接口文档
+paths:
+  /scenes:
+    get:
+      summary: 获取游戏场景列表
+      responses:
+        '200':
+          description: 成功返回场景列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  scenes:
+                    type: array
+                    items:
+                      type: string
+              example:
+                scenes: ["Forest", "Village", "Cave"]
+  /player:
+    get:
+      summary: 获取玩家信息
+      responses:
+        '200':
+          description: 成功返回玩家信息
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  location:
+                    type: string
+              example:
+                name: "Alice"
+                location: "Village"
